@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
     
     lazy var game = Concentration(numOfPairsOfCards: (cardButtons.count  + 1) /  2)
-    // MARK: this is a test
+    // MARK: this is a test again
     var themeIndex: Int = 0
     var emojiDict = Dictionary<Int, String>()
     
