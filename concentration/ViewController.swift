@@ -14,10 +14,13 @@ class ViewController: UIViewController {
         themeIndex = pickRandomTheme()
     }
     
-    lazy var game = Concentration(numOfPairsOfCards: (cardButtons.count  + 1) /  2)
+    lazy var game = Concentration(numOfPairsOfCards: numberOfPairsOfCards)
     // MARK: this is a test again
     var themeIndex: Int = 0
     var emojiDict = Dictionary<Int, String>()
+    var numberOfPairsOfCards: Int {
+        return (cardButtons.count  + 1) /  2
+    }
     
     @IBOutlet var cardButtons: [UIButton]!
     @IBOutlet weak var flipCountLabel: UILabel!

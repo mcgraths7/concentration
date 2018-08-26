@@ -10,7 +10,26 @@ import Foundation
 
 class Concentration {
     var cards = [Card]()
-    var indexOfOneAndOnlyFaceUp: Int?
+    var indexOfOneAndOnlyFaceUp: Int? {
+        get {
+            var foundIndex: Int?
+            for index in cards.indices {
+                if cards[index].isFaceUp {
+                    if foundIndex == nil {
+                        foundIndex = index
+                    } else {
+                        return nil
+                    }
+                }
+            }
+            return foundIndex
+        }
+        set {
+            for index in cards.indices {
+                cards[index].isFaceUp = (index == newValue)
+            }
+        }
+    }
     var flipCount = 0
     var score = 0
     
@@ -44,18 +63,14 @@ class Concentration {
                 } else if cards[matchIndex].identifier != cards[index].identifier {
                     if cards[index].hasBeenSeenMultipleTimes && cards[matchIndex].hasBeenSeenMultipleTimes {
                         score -= 2
-                    } else if (!cards[index].hasBeenSeenMultipleTimes && cards[matchIndex].hasBeenSeenMultipleTimes) || (!cards[matchIndex].hasBeenSeenMultipleTimes && cards[index].hasBeenSeenMultipleTimes) {
+                    } else if (!cards[index].hasBeenSeenMultipleTimes && cards[matchIndex].hasBeenSeenMultipleTimes) ||
+                        (!cards[matchIndex].hasBeenSeenMultipleTimes && cards[index].hasBeenSeenMultipleTimes) {
                         score -= 1
                     }
                 }
                 cards[index].isFaceUp = true
-                indexOfOneAndOnlyFaceUp = nil
             } else {
                 // either no cards or 2 cards are face up
-                for flipDownIndex in cards.indices {
-                    cards[flipDownIndex].isFaceUp = false
-                }
-                cards[index].isFaceUp = true
                 indexOfOneAndOnlyFaceUp = index
             }
         }
