@@ -24,4 +24,6 @@ struct Card {
         self.identifier = Card.getUniqueIdentifier()
     }
     
+    // TODO: add a property "hasBeenSeen" to track whether the card has been seen
+    
 }
