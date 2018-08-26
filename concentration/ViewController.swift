@@ -12,7 +12,6 @@ class ViewController: UIViewController {
     
     lazy var game = Concentration(numOfPairsOfCards: (cardButtons.count  + 1) /  2)
     
-    // TODO: Move flipcount to Concentration class
     var emojiThemesDict = [
         0 : ["😀", "🙂", "🤪", "🤩", "😤", "😱", "😐", "🤠"],
         1 : ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼"],
@@ -27,6 +26,7 @@ class ViewController: UIViewController {
     var emojiDict = Dictionary<Int, String>()
     @IBOutlet var cardButtons: [UIButton]!
     @IBOutlet weak var flipCountLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
     
     @IBAction func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
@@ -62,6 +62,7 @@ class ViewController: UIViewController {
             }
         }
         flipCountLabel.text = "Flips: \(game.flipCount)"
+        scoreLabel.text = "Score: \(game.score)"
     }
     
     func emoji(for card: Card, withTheme themeIndex: Int) -> String {

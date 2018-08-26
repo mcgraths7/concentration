@@ -143,12 +143,20 @@
                                     <action selector="newGameButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XXQ-9Y-NL1"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKa-RT-jxU">
+                                <rect key="frame" x="56" y="516" width="262" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="flipCountLabel" destination="wZ5-TZ-BPn" id="Hhz-uX-x0u"/>
+                        <outlet property="scoreLabel" destination="aKa-RT-jxU" id="BJz-QN-LLv"/>
                         <outletCollection property="cardButtons" destination="UJD-7f-7ar" collectionClass="NSMutableArray" id="8RN-bf-R7e"/>
                         <outletCollection property="cardButtons" destination="kgp-Sq-FdO" collectionClass="NSMutableArray" id="nGY-hA-1FS"/>
                         <outletCollection property="cardButtons" destination="aaW-yp-AP4" collectionClass="NSMutableArray" id="nen-f4-a4p"/>

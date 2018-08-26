@@ -12,6 +12,7 @@ class Concentration {
     var cards = [Card]()
     var indexOfOneAndOnlyFaceUp: Int?
     var flipCount = 0
+    var score = 0
     
     init(numOfPairsOfCards: Int) {
         for _ in 1...numOfPairsOfCards {
@@ -28,13 +29,24 @@ class Concentration {
     }
     
     func chooseCard(at index: Int) {
-        flipCount += 1
+        if !cards[index].hasBeenSeenOnce {
+            cards[index].hasBeenSeenOnce = true
+        } else {
+            cards[index].hasBeenSeenMultipleTimes = true
+        }
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUp, matchIndex != index {
                 //check if cards match
                 if cards[matchIndex].identifier == cards[index].identifier {
                     cards[index].isMatched = true
                     cards[matchIndex].isMatched = true
+                    score += 2
+                } else if cards[matchIndex].identifier != cards[index].identifier {
+                    if cards[index].hasBeenSeenMultipleTimes && cards[matchIndex].hasBeenSeenMultipleTimes {
+                        score -= 2
+                    } else if (!cards[index].hasBeenSeenMultipleTimes && cards[matchIndex].hasBeenSeenMultipleTimes) || (!cards[matchIndex].hasBeenSeenMultipleTimes && cards[index].hasBeenSeenMultipleTimes) {
+                        score -= 1
+                    }
                 }
                 cards[index].isFaceUp = true
                 indexOfOneAndOnlyFaceUp = nil
@@ -47,7 +59,7 @@ class Concentration {
                 indexOfOneAndOnlyFaceUp = index
             }
         }
+        flipCount += 1
     }
     
-    // TODO: Add scoring system: +2 points for a match, -1 point for a mismatch when card has been seen already
 }
