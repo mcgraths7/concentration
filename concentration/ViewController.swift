@@ -10,20 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Concentration(numOfPairsOfCards: (cardButtons.count  + 1) /  2)
+    override func viewDidLoad() {
+        themeIndex = pickRandomTheme()
+    }
     
-    var emojiThemesDict = [
-        0 : ["😀", "🙂", "🤪", "🤩", "😤", "😱", "😐", "🤠"],
-        1 : ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼"],
-        2 : ["🍏", "🍐", "🍌", "🍉", "🍇", "🍒", "🥥", "🌶"],
-        3 : ["⛸", "☕️", "❄️", "☃️", "🧤", "🧦", "🧣", "🛷"],
-        4 : ["🌂", "🌈", "☔️", "🌧", "🌹", "🐿", "🐣", "🌼"],
-        5 : ["🏄‍♂️", "🕶", "👙", "🐚", "🌻", "🌴", "🍹", "☀️"],
-        6 : ["🌰", "🥧", "🌆", "🍂", "🎃", "🏮", "🎑", "🍊"]
-    ]
+    lazy var game = Concentration(numOfPairsOfCards: (cardButtons.count  + 1) /  2)
+    // MARK: this is a test
     var themeIndex: Int = 0
-
     var emojiDict = Dictionary<Int, String>()
+    
     @IBOutlet var cardButtons: [UIButton]!
     @IBOutlet weak var flipCountLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -35,7 +30,6 @@ class ViewController: UIViewController {
         } else {
             print("Chosen card not in cardButtons")
         }
-        
     }
     
     @IBAction func newGameButton(_ sender: UIButton) {
@@ -45,10 +39,7 @@ class ViewController: UIViewController {
         updateViewFromModel()
     }
     
-    override func viewDidLoad() {
-        themeIndex = pickRandomTheme()
-    }
-    
+    // MARK: Helper functions
     func updateViewFromModel() {
         for index in cardButtons.indices {
             let button = cardButtons[index]
@@ -65,11 +56,11 @@ class ViewController: UIViewController {
         scoreLabel.text = "Score: \(game.score)"
     }
     
-    func emoji(for card: Card, withTheme themeIndex: Int) -> String {
+    func emoji(for card: Card, withTheme index: Int) -> String {
         if emojiDict[card.identifier] == nil, emojiThemesDict.count > 0 {
             
             for key in emojiThemesDict.keys {
-                if key == themeIndex {
+                if key == index {
                     if var currentTheme = emojiThemesDict[key] {
                         let randomIndex = Int(arc4random_uniform(UInt32(currentTheme.count)))
                         emojiDict[card.identifier] = currentTheme.remove(at: randomIndex)
@@ -78,13 +69,23 @@ class ViewController: UIViewController {
                 }
             }
         }
-
+        
         return emojiDict[card.identifier] ?? "?"
     }
     
     func pickRandomTheme() -> Int {
         return Int(arc4random_uniform(UInt32(emojiThemesDict.keys.count)))
     }
-
+    
+    // MARK: Available Themes
+    var emojiThemesDict = [
+        0 : ["😀", "🙂", "🤪", "🤩", "😤", "😱", "😐", "🤠"],
+        1 : ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼"],
+        2 : ["🍏", "🍐", "🍌", "🍉", "🍇", "🍒", "🥥", "🌶"],
+        3 : ["⛸", "☕️", "❄️", "☃️", "🧤", "🧦", "🧣", "🛷"],
+        4 : ["🌂", "🌈", "☔️", "🌧", "🌹", "🐿", "🐣", "🌼"],
+        5 : ["🏄‍♂️", "🕶", "👙", "🐚", "🌻", "🌴", "🍹", "☀️"],
+        6 : ["🌰", "🥧", "🌆", "🍂", "🎃", "🏮", "🎑", "🍊"]
+    ]
 }
 
