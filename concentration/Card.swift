@@ -15,9 +15,9 @@ struct Card {
     var hasBeenSeenOnce = false
     var hasBeenSeenMultipleTimes = false
     
-    static var identifierFactor = 0
+    private static var identifierFactor = 0
     
-    static func getUniqueIdentifier() -> Int {
+    private static func getUniqueIdentifier() -> Int {
         identifierFactor += 1
         return identifierFactor
     }

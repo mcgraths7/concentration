@@ -9,8 +9,8 @@
 import Foundation
 
 class Concentration {
-    var cards = [Card]()
-    var indexOfOneAndOnlyFaceUp: Int? {
+    private(set) var cards = [Card]()
+    private var indexOfOneAndOnlyFaceUp: Int? {
         get {
             var foundIndex: Int?
             for index in cards.indices {
@@ -34,6 +34,7 @@ class Concentration {
     var score = 0
     
     init(numOfPairsOfCards: Int) {
+        assert(numOfPairsOfCards > 0, "Concentration.init(\(numOfPairsOfCards)): you must have at least one pair of cards")
         for _ in 1...numOfPairsOfCards {
             let card = Card()
             cards += [card, card]
@@ -46,8 +47,8 @@ class Concentration {
         }
         cards = shuffled
     }
-    
     func chooseCard(at index: Int) {
+        assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): Chosen index not in the cards")
         if !cards[index].hasBeenSeenOnce {
             cards[index].hasBeenSeenOnce = true
         } else {
@@ -75,6 +76,10 @@ class Concentration {
             }
         }
         flipCount += 1
+    }
+    
+    func resetFlipCount() {
+        flipCount = 0
     }
     
 }
