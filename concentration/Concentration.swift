@@ -8,21 +8,11 @@
 
 import Foundation
 
-class Concentration {
+struct Concentration {
     private(set) var cards = [Card]()
     private var indexOfOneAndOnlyFaceUp: Int? {
         get {
-            var foundIndex: Int?
-            for index in cards.indices {
-                if cards[index].isFaceUp {
-                    if foundIndex == nil {
-                        foundIndex = index
-                    } else {
-                        return nil
-                    }
-                }
-            }
-            return foundIndex
+            return cards.indices.filter { cards[$0].isFaceUp }.oneAndOnly
         }
         set {
             for index in cards.indices {
@@ -30,6 +20,7 @@ class Concentration {
             }
         }
     }
+    
     var flipCount = 0
     var score = 0
     
@@ -47,7 +38,8 @@ class Concentration {
         }
         cards = shuffled
     }
-    func chooseCard(at index: Int) {
+    
+    mutating func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): Chosen index not in the cards")
         if !cards[index].hasBeenSeenOnce {
             cards[index].hasBeenSeenOnce = true
@@ -57,11 +49,11 @@ class Concentration {
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUp, matchIndex != index {
                 //check if cards match
-                if cards[matchIndex].identifier == cards[index].identifier {
+                if cards[matchIndex] == cards[index] {
                     cards[index].isMatched = true
                     cards[matchIndex].isMatched = true
                     score += 2
-                } else if cards[matchIndex].identifier != cards[index].identifier {
+                } else if cards[matchIndex] != cards[index] {
                     if cards[index].hasBeenSeenMultipleTimes && cards[matchIndex].hasBeenSeenMultipleTimes {
                         score -= 2
                     } else if (!cards[index].hasBeenSeenMultipleTimes && cards[matchIndex].hasBeenSeenMultipleTimes) ||
@@ -78,8 +70,14 @@ class Concentration {
         flipCount += 1
     }
     
-    func resetFlipCount() {
+    mutating func resetFlipCount() {
         flipCount = 0
     }
     
+}
+
+extension Collection {
+    var oneAndOnly: Element? {
+        return count == 1 ? first: nil
+    }
 }

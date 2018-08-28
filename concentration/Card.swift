@@ -8,12 +8,18 @@
 
 import Foundation
 
-struct Card {
+struct Card: Hashable {
     var isFaceUp = false
     var isMatched = false
-    var identifier: Int
+    private var identifier: Int
     var hasBeenSeenOnce = false
     var hasBeenSeenMultipleTimes = false
+    
+    var hashValue: Int { return identifier }
+    
+    static func ==(lhs: Card, rhs: Card) -> Bool {
+        return lhs.identifier  == rhs.identifier
+    }
     
     private static var identifierFactor = 0
     
@@ -25,7 +31,5 @@ struct Card {
     init() {
         self.identifier = Card.getUniqueIdentifier()
     }
-    
-    // TODO: add a property "hasBeenSeen" to track whether the card has been seen
     
 }

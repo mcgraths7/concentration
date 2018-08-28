@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     private lazy var game = Concentration(numOfPairsOfCards: numberOfPairsOfCards)
 
     private var themeIndex: Int = 0
-    private var emojiDict = Dictionary<Int, String>()
+    private var emojiDict = Dictionary<Card, String>()
     var numberOfPairsOfCards: Int {
         return (cardButtons.count  + 1) /  2
     }
@@ -60,19 +60,20 @@ class ViewController: UIViewController {
     }
     
     private func emoji(for card: Card, withTheme index: Int) -> String {
-        if emojiDict[card.identifier] == nil, emojiThemesDict.count > 0 {
+        if emojiDict[card] == nil, emojiThemesDict.count > 0 {
             
             for key in emojiThemesDict.keys {
                 if key == index {
                     if var currentTheme = emojiThemesDict[key] {
-                        emojiDict[card.identifier] = currentTheme.remove(at: currentTheme.count.arc4random)
+                        let randomStringIndex = currentTheme.index(currentTheme.startIndex, offsetBy: currentTheme.count.arc4random)
+                        emojiDict[card] = String(currentTheme.remove(at: randomStringIndex))
                         emojiThemesDict[key] = currentTheme
                     }
                 }
             }
         }
         
-        return emojiDict[card.identifier] ?? "?"
+        return emojiDict[card] ?? "?"
     }
     
     private func pickRandomTheme() -> Int {
@@ -81,13 +82,13 @@ class ViewController: UIViewController {
     
     // MARK: Available Themes
     private var emojiThemesDict = [
-        0 : ["😀", "🙂", "🤪", "🤩", "😤", "😱", "😐", "🤠"],
-        1 : ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼"],
-        2 : ["🍏", "🍐", "🍌", "🍉", "🍇", "🍒", "🥥", "🌶"],
-        3 : ["⛸", "☕️", "❄️", "☃️", "🧤", "🧦", "🧣", "🛷"],
-        4 : ["🌂", "🌈", "☔️", "🌧", "🌹", "🐿", "🐣", "🌼"],
-        5 : ["🏄‍♂️", "🕶", "👙", "🐚", "🌻", "🌴", "🍹", "☀️"],
-        6 : ["🌰", "🥧", "🌆", "🍂", "🎃", "🏮", "🎑", "🍊"]
+        0 : "😀🙂🤪🤩😤😱😐🤠",
+        1 : "🐶🐱🐭🐹🐰🦊🐻🐼",
+        2 : "🍏🍐🍌🍉🍇🍒🥥🌶",
+        3 : "⛸☕️❄️☃️🧤🧦🧣🛷",
+        4 : "🌂🌈☔️🌧🌹🐿🐣🌼",
+        5 : "🏄‍♂️🕶👙🐚🌻🌴🍹☀️",
+        6 : "🌰🥧🌆🍂🎃🏮🎑🍊"
     ]
 }
 
